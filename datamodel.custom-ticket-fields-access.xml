@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <classes>
+    <class id="UserRequest">
+      <methods>
+        <method id="GetAttributeFlags" _delta="define">
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-iDisplay</type>
+          <code><![CDATA[
+            public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+            {
+              $aAttributes = array('description');
+
+              if (in_array($sAttCode, $aAttributes) && !UserRights::IsAdministrator())
+              {
+                $iCallerID = $this->Get('caller_id');
+                $iAgentID = $this->Get('agent_id');
+                $iUserID = UserRights::GetContactId();
+                if ($iCallerID == $iUserID)
+                {
+                  return OPT_ATT_READONLY;
+                }
+                elseif ($iAgentID == $iUserID)
+                {
+                  return OPT_ATT_HIDDEN;
+                }
+              }
+              else
+              {
+                return parent::GetAttributeFlags($sAttCode, &$aReasons, $sTargetState);
+              }
+            }
+            ]]>
+          </code>
+        </method>
+      </methods>
+    </class>
+  </classes>
+</itop_design>
