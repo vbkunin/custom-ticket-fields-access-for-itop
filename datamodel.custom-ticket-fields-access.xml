@@ -28,7 +28,7 @@
               }
               else
               {
-                return parent::GetAttributeFlags($sAttCode, &$aReasons, $sTargetState);
+                return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
               }
             }
             ]]>
